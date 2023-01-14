@@ -1,4 +1,4 @@
-import { collection, doc, getDocs, setDoc } from 'firebase/firestore';
+import { collection, deleteDoc, doc, getDocs, setDoc } from 'firebase/firestore';
 import React from 'react'
 import { useEffect } from 'react';
 import { useState } from 'react';
@@ -33,6 +33,17 @@ const Department = () => {
         }
     }
 
+    const handleRemove = async (department) => {
+        try {
+            await deleteDoc(doc(firestore, 'departments', department));
+            const departCollectRef = collection(firestore,'departments');
+            updateFunction(departCollectRef)
+        } catch (error) {
+            console.log("error", error);
+        }
+    };
+
+
     const updateFunction = (departCollectRef) => {
         getDocs(departCollectRef).then((doc) => {
             let toDepList = []
@@ -63,6 +74,7 @@ const Department = () => {
                     return (
                         <div className="item" key={i}>
                             <h5> {elem.department} </h5>
+                            <button onClick={() => handleRemove(elem.department)}>Remove</button>
                         </div>
                     )
                 })}

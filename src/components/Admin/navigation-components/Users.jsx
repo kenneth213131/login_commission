@@ -97,7 +97,7 @@ export default function Users() {
                                 {data.age}
                             </td>
                             <td>
-                                HIDE ITEM
+                                {data.department}
                             </td>
                             <td>
                                 {data.address}
